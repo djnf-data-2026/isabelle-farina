@@ -1,7 +1,7 @@
 ---
 title: "Government Spending Master DJNF"
-author: "Wells"
-date: "2026-05-26"
+author: "Farina"
+date: "2026-05-"
 output: html_document
 editor_options: 
   markdown: 
@@ -92,6 +92,21 @@ group_by(state_nm) |>
   arrange(desc(total_spent))
 
 ```
+
+#BY NEW JERSEY
+```{r}
+spending |> 
+  filter(state_nm=="NEW JERSEY") %>% 
+group_by(cty_name, state_nm) |> 
+  summarize(
+     total_spent = sum(spending_total, na.rm = TRUE),
+     n = n()
+  ) |> 
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+
+```
+
 
 ## Spending by county, FY2020-2024
 
