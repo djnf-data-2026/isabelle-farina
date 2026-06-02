@@ -1,0 +1,164 @@
+---
+title: "Pitching News Story Template"
+author: "Isabelle Farina"
+date: "2026-06-01"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r} 
+library(tidyverse)
+```
+Story Pitch Template: Your Name, Contact Information, Date Isabelle
+Farina,
+[isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email},
+6/1/2026
+
+### In two sentences, what is this story about?
+
+New Jersey is consistently recorded as [one of the most expensive states
+to live
+in](https://worldpopulationreview.com/state-rankings/cost-of-living-index-by-state),
+and not just because of its proximity to New York City, exuberant
+restaurant scene and luxurious beaches. In fact, most of the benefits of
+living in the armpit of America come later in life with social security
+benefits. In all 22 counties of the state, the Social Security
+Administration receives the most federal spending. Why is social
+security such a high priority in New Jersey, and do locals think it's
+worth it?
+
+### In one sentence, why tell this story NOW?
+
+This story is relevant because there have been [significant
+changes](https://www.aarp.org/social-security/biggest-2026-changes/) in
+the last year to what social security entails, and people need clarity
+on what this means.
+
+### Who is your target audience?
+
+- folks of benefit-earning age who have been paying social security
+  taxes in NJ their whole lives and want to ensure they rightfully
+  receive their benefits
+- younger families who want to know if it is worth it in the long run to
+  live in a state as expensive as NJ
+- disabled/financially insecure people who currently benefit from social
+  security
+
+### Three people you can interview for this story
+
+- An NJ official who is involved and knowledgeable on NJ’s budget and
+  federal spending on Social Security Administration
+  - Security Administration Governor Mikie Sherrell, Phone: (609)
+    292-6000
+  - Regional Commissioner of Social Security Administration for NJ/NY
+    Region Raymond Egan
+  - New Jersey State Treasurer Aaron Binder (Office number:
+    609-292-6748)
+- A local resident currently receiving and dependent on social security
+  benefits
+  - Do they purposely live in NJ?
+  - How have their benefits changed recently? Why should states value
+    social security?
+- A local resident who pays taxes
+  - Are they aware of NJ’s prioritization of social security? do they
+    know what benefits they are entitled to?
+
+### Potential impact
+
+Nationally, social security is experiencing drastic changes, and it is
+important to narrow our focus on how these adjustments affect New
+Jersey, along with how the state’s high federal spending on the Social
+Security Association mitigates or worsens these effects. If it is proven
+this priority is worth it, it may inspire other states to follow suit,
+but if it is not, New Jerseyans can advocate for change to adjust
+spending. Additionally, if people are aware of what they are entitled to
+through social security and what they like and dislike about the system,
+they will have the necessary knowledge to vote on it.
+
+### What are three things that surprised or interested you about this story?
+
+I was not aware of how much social security encompasses. It goes far
+beyond old people receiving benefits, and includes things like
+Supplemental Security Income. Additionally, I was not fully aware of how
+much change social security is undergoing recently. I want to be able to
+connect the trend of every NJ county having SSA as its number one agency
+for federal spending to the national changes.
+
+### Context: Summarize any previous coverage + What other information do you need to gather?
+
+[Social Security benefit cuts could be coming — and there’s an actual
+date
+attached](https://www.nj.com/news/2026/04/social-security-benefit-cuts-could-be-coming-and-theres-an-actual-date-attached.html)
+
+- The Congressional Budget Office is saying that Social Security could
+  run out of money a year sooner in 2032 due to a provision in the One
+  Big Beautiful Bill Act. To address this budget shortfall, there are
+  proposals to make cuts to Social Security.
+
+  - How does this intersect with NJ’s federal spending?
+
+[Social Security’s proposed rule change could cut benefits for nearly
+400K disabled people. Here’s
+why](https://www.nj.com/news/2026/05/social-securitys-proposed-rule-change-could-cut-benefits-for-nearly-400k-disabled-people-heres-why.html)
+
+- The Social Security Administration would remove Supplemental Nutrition
+  Assistance Program (SNAP) benefits as a qualification to receive
+  Supplemental Security Income (SSI) and tighten the qualifications for
+  what is deemed a “public assistance household,” according to an
+  Executive Order submission currently under review.
+
+  - What does this mean for NJ, a state that directs most of its federal
+    spending towards the Social Security Administration?
+
+[Social Security COLA 2027 projection released, and the amount may
+surprise
+you](https://www.nj.com/news/2026/04/social-security-cola-2027-projection-released-and-the-amount-may-surprise-you.html)
+
+- According to the Senior Citizens League, the 2027 cost of living
+  assessment will remain flat at 2.8%, the same as it was in 2026.
+
+  - How do citizens feel about this?
+
+### Photos, video, graphics - How will you make this story visual?
+
+- graphic illustrating what social security benefits includes –
+  basically what are SS benefits
+- comparison of how much federal spending on SSA in NJ vs other states
+
+### Estimated delivery
+
+In order to conduct thorough interviews with several local residents who
+bring different perspectives to the story, interview a knowledgeable
+expert on NJ finances who may be difficult to contact, and compile data
+into pleasing visualizations, I anticipate this assignment to take me
+two to three weeks.
+
+# Total spending by county for Social Security Administration
+
+```{r}
+federal_spending <- read_csv("data/federal spending by county 2020-2024.csv")
+```
+```{r}
+nj_spending <- federal_spending |>
+  filter(state_nm == "NEW JERSEY")
+```
+
+
+```{r}
+nj_spending |> 
+group_by(cty_name) |> 
+  filter(agency=="Social Security Administration") |>
+  summarize(
+    total_spent = sum(spending_total, na.rm = TRUE), 
+    states_spending = sum(spending_total[!is.na(state_nm)], na.rm = TRUE)) |> 
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+
+
+```

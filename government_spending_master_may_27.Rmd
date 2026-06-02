@@ -42,9 +42,9 @@ In addition, federal obligations recorded in one year can later be corrected thr
 ## Load libraries
 
 ```{r include=FALSE}
-#install.packages("tidycensus")
+install.packages("tidycensus")
 #install.packages("janitor")
-#install.packages("scales")
+install.packages("scales")
 library(scales)
 library(tidyverse)
 library(tidycensus)
@@ -55,11 +55,15 @@ library(janitor)
 
 ```{r}
 
-spending <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/federal_spending_by_county_2020%202024%20rob_0416_v2.csv") |> 
-     clean_names()
+spending <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/federal_spending_by_county_2020%202024%20rob_0416_v2.csv")
+
+
+nj <- read_csv("./data/nj_update.csv")
 
 ```
-
+```{r}
+nj_county_pop <- nj |> select(cty_name, county_pop) |> distinct()
+```
 **pokin' around!**
 
 ## Spending by agency, FY2020-2024
@@ -67,7 +71,7 @@ spending <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/re
 ```{r}
 options(scipen = 999)  # Disable scientific notation globally
 
-totals <- spending |> 
+totals <- nj |> 
 group_by(agency) |> 
   summarize(
     n = n(),
@@ -95,9 +99,8 @@ group_by(state_nm) |>
 
 #BY NEW JERSEY
 ```{r}
-spending |> 
-  filter(state_nm=="NEW JERSEY") %>% 
-group_by(cty_name, state_nm) |> 
+nj_county <- nj |> 
+  group_by(cty_name, state_nm) |> 
   summarize(
      total_spent = sum(spending_total, na.rm = TRUE),
      n = n()
@@ -126,18 +129,78 @@ group_by(cty_name, state_nm) |>
 
 ```{r}
 
-spending |> 
+salem <- nj |> 
+  filter(cty_name == "SALEM") |> 
+  group_by(agency) |> 
+  summarize(
+     total_spent = sum(spending_total, na.rm = TRUE),
+     n = n()
+  ) |> 
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e6, suffix = "M", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+```
+
+```{r}
+
+salem <- nj |> 
+  filter(cty_name == "SALEM") |> 
+  group_by(agency) |> 
+  summarize(
+     total_spent = sum(spending_total, na.rm = TRUE),
+     n = n()
+  ) |> 
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e6, suffix = "M", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+```
+```{r}
+
+camden <- nj |> 
   filter(cty_name == "CAMDEN") |> 
   group_by(agency) |> 
   summarize(
      total_spent = sum(spending_total, na.rm = TRUE),
      n = n()
   ) |> 
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e6, suffix = "M", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+```
+```{r}
+
+bergen <- nj |> 
+  filter(cty_name == "BERGEN") |> 
+  group_by(agency) |> 
+  summarize(
+     total_spent = sum(spending_total, na.rm = TRUE),
+     n = n()
+  ) |> 
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e6, suffix = "M", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+```
+```{r}
+#https://drive.google.com/file/d/12FdQ2qN52YeyVVUtpOF6Uwe6wt9yguCS/view?usp=sharing
+install.packages("googledrive")
+```
+```{r}
+nj2 <- read_csv("./data/nj_update.csv")
+```
+
+# Total spending by county for Social Security Administration
+```{r}
+nj |> 
+group_by(cty_name) |> 
+  filter(agency=="Social Security Administration") |>
+  summarize(
+    total_spent = sum(spending_total, na.rm = TRUE), 
+    states_spending = sum(spending_total[!is.na(state_nm)], na.rm = TRUE)) |> 
    mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
   arrange(desc(total_spent))
+
+
 ```
 
 ## Highlight specific city and agency, FY2020-2024
+
+
 
 ```{r}
 spending |> 

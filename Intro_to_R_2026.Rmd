@@ -80,9 +80,9 @@ Janitor: Data cleaning
 **Below, remove the hash tags \# and run the chunk**
 
 ```{r}
-#install.packages("tidyverse")
-#install.packages("rio") 
-#install.packages("janitor")
+install.packages("tidyverse")
+install.packages("rio") 
+install.packages("janitor")
 ```
 
 After you install a package on your hard drive, you bring the software
@@ -94,8 +94,9 @@ make things run.
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 #load the library for rio 
+library(rio)
 #load the library for janitor
-
+library(janitor)
 ```
 
 Check to see what's installed by clicking on "Packages" tab in File
@@ -159,17 +160,19 @@ How many columns? Names of columns
 
 ```{r}
 #use the command ncol to determine the number of columns
+ncol(MediaBucks)
 ```
 
 ```{r}
 #use the command glimpse to see the file types, names
+glimpse(MediaBucks)
 ```
 
 Names of your columns
 
 ```{r}
 # use the command names to see the file names
-
+names(MediaBucks)
 ```
 
 Let's look at the first six rows
@@ -197,12 +200,14 @@ Context: NYT earnings in 2022 = \$174 m Facebook profit for one day:
 \$129 million (Q32023=\$11.6B)
 
 average
-
+mean
 ```{r}
 #We just used sum to determine total salaries.
 #mean is the command to determine averages.
 #replace sum for mean: sum(MediaBucks$Salary, na.rm=TRUE)
+mean((MediaBucks$Salary), na.rm=TRUE)
 ```
+
 
 <br>
 
@@ -254,10 +259,9 @@ Better idea: Check Averages!
 #Using the example code above, create a column called Avg_Salary and use the mean command to produce the calculation
 #Adapt the code below to do this:
 
-# MediaBucks %>% 
-#   select(Gender, Salary) %>% 
-#   group_by(Gender) %>% 
-#   summarize(Total = sum(Salary, na.rm=TRUE))
+MediaBucks %>%
+  select(Gender, Salary) %>%
+  group_by(Average_Salary = mean(Salary, na.rm=TRUE))
 
 ```
 
@@ -285,7 +289,9 @@ Filter
 ```{r}
 WSJ <- subset(MediaBucks, COMPANY=="WallStreetJournal")  
 ```
-
+```{r}
+summary(MediaBucks$Salary)
+```
 ```{r}
 summary(WSJ$Salary)
 ```
@@ -311,17 +317,22 @@ Questions
 
 ```{r}
 #1: Build a table for NewYorkTimes employees   
+York <- subset(MediaBucks, grepl("?NewYorkTimes", COMPANY)) 
+
 
 ```
 
 ```{r}
 #2: Determine median salary of NewYorkTimes employees   
+summary(NYT$Salary)
 
 ```
 
 ```{r}
 #3: Identify title, gender and race of the highest paid position at NYT  
-
+NYT %>% 
+  filter(Salary == "350000") %>% 
+  select(TITLE, Gender, Race, Salary)
 ```
 
 ```{r}
