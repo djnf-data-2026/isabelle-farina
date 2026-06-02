@@ -518,28 +518,32 @@ two to three weeks.</p>
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>nj_spending &lt;- federal_spending |&gt;
   filter(state_nm == &quot;NEW JERSEY&quot;)</code></pre>
-<pre class="r"><code>nj_spending |&gt; 
+<p>#Population</p>
+<pre class="r"><code>nj &lt;- read_csv(&quot;./data/nj_update.csv&quot;)</code></pre>
+<pre><code>## Rows: 2629 Columns: 19
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (5): agency, state_nm, cty_name, NAME, geometry
+## dbl (14): fyear, state_cd, cty_cd, contracts, grants, direct_payments, spend...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>nj_county_pop &lt;- nj |&gt; select(cty_name, county_pop) |&gt; distinct()</code></pre>
+<pre class="r"><code>county_spending &lt;- nj_spending |&gt; 
 group_by(cty_name) |&gt; 
   filter(agency==&quot;Social Security Administration&quot;) |&gt;
   summarize(
-    total_spent = sum(spending_total, na.rm = TRUE), 
-    states_spending = sum(spending_total[!is.na(state_nm)], na.rm = TRUE)) |&gt; 
+    total_spent = sum(spending_total, na.rm = TRUE)) |&gt;
    mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = &quot;B&quot;, accuracy = 0.01)) |&gt; 
-  arrange(desc(total_spent))</code></pre>
-<pre><code>## # A tibble: 22 × 4
-##    cty_name   total_spent states_spending `total_spent_$`
-##    &lt;chr&gt;            &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;          
-##  1 BERGEN     18829382144     18829382144 $18.83B        
-##  2 OCEAN      17374930944     17374930944 $17.37B        
-##  3 MIDDLESEX  14982395904     14982395904 $14.98B        
-##  4 MONMOUTH   14795062528     14795062528 $14.80B        
-##  5 ESSEX      12637870848     12637870848 $12.64B        
-##  6 CAMDEN     10609140608     10609140608 $10.61B        
-##  7 MORRIS     10551322368     10551322368 $10.55B        
-##  8 BURLINGTON 10320207744     10320207744 $10.32B        
-##  9 UNION       9328520192      9328520192 $9.33B         
-## 10 PASSAIC     8795635840      8795635840 $8.80B         
-## # ℹ 12 more rows</code></pre>
+  arrange(desc(total_spent))
+
+county_sums &lt;- county_spending |&gt;
+  inner_join(nj_county_pop)</code></pre>
+<pre><code>## Joining with `by = join_by(cty_name)`</code></pre>
+<pre class="r"><code>per_capita &lt;- county_sums |&gt; mutate(per_capita=total_spent/county_pop)</code></pre>
+<iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+</iframe>
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
 </div>
 
 

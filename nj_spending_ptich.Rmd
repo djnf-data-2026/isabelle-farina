@@ -12,9 +12,10 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r} 
+```{r}
 library(tidyverse)
 ```
+
 Story Pitch Template: Your Name, Contact Information, Date Isabelle
 Farina,
 [isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email},
@@ -144,21 +145,37 @@ two to three weeks.
 ```{r}
 federal_spending <- read_csv("data/federal spending by county 2020-2024.csv")
 ```
+
 ```{r}
 nj_spending <- federal_spending |>
   filter(state_nm == "NEW JERSEY")
 ```
 
+#Population
 
 ```{r}
-nj_spending |> 
+
+nj <- read_csv("./data/nj_update.csv")
+nj_county_pop <- nj |> select(cty_name, county_pop) |> distinct()
+```
+
+```{r}
+county_spending <- nj_spending |> 
 group_by(cty_name) |> 
   filter(agency=="Social Security Administration") |>
   summarize(
-    total_spent = sum(spending_total, na.rm = TRUE), 
-    states_spending = sum(spending_total[!is.na(state_nm)], na.rm = TRUE)) |> 
+    total_spent = sum(spending_total, na.rm = TRUE)) |>
    mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
   arrange(desc(total_spent))
 
+county_sums <- county_spending |>
+  inner_join(nj_county_pop)
+
+per_capita <- county_sums |> mutate(per_capita=total_spent/county_pop)
 
 ```
+
+
+
+<iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+
