@@ -13,10 +13,7 @@ editor_options:
 library(tidyverse)
 ```
 
-Story Pitch Template: Your Name, Contact Information, Date Isabelle
-Farina,
-[isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email},
-6/1/2026
+Isabelle Farina,[isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email}, 6/1/2026
 
 ### In two sentences, what is this story about?
 
@@ -26,7 +23,7 @@ in](https://worldpopulationreview.com/state-rankings/cost-of-living-index-by-sta
 and not just because of its proximity to New York City, exuberant
 restaurant scene and luxurious beaches. In fact, most of the benefits of
 living in the armpit of America come later in life with social security
-benefits. In all 22 counties of the state, the Social Security
+benefits. In all 21 counties of the state, the Social Security
 Administration receives the most federal spending. Why is social
 security such a high priority in New Jersey, and do locals think it's
 worth it?
@@ -164,6 +161,11 @@ group_by(cty_name) |>
     total_spent = sum(spending_total, na.rm = TRUE)) |>
    mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
   arrange(desc(total_spent))
+print(county_spending, n = 21)
+
+```
+
+```{r}
 
 county_sums <- county_spending |>
   inner_join(nj_county_pop)
@@ -175,4 +177,28 @@ per_capita <- county_sums |> mutate(per_capita=total_spent/county_pop)
 
 
 <iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+
+
+
+```{r}
+per_capita <- per_capita |> 
+  mutate(spending_reduce=total_spent-(total_spent * 0.24))
+```
+
+
+```{r}
+options(scipen=999)
+ggplot(per_capita,aes(x = cty_name)) + 
+  geom_col(aes(y = total_spent), fill = "red") +
+    geom_col(aes(y = spending_reduce), fill = "blue") +
+  theme(axis.text.x=element_text(angle=90)) +
+  #scale_y_continuous(labels = scales::percent, limits=c(0, 1)) +
+  #geom_text(aes(label = scales::percent(percent)), size = 4) +
+  labs(title = "Reduction in Social Security Spending By County",
+       subtitle = "x",
+       caption = "x",
+       y="$",
+       x="County")
+```
+
 
