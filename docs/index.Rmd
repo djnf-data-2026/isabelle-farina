@@ -8,32 +8,59 @@ editor_options:
     wrap: 72
 ---
 
-
 ```{r}
 library(tidyverse)
 ```
 
-Isabelle Farina,[isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email}, 6/1/2026
+Isabelle
+Farina,[isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email},
+6/1/2026
 
-### In two sentences, what is this story about?
+### What is this story about?
 
-New Jersey is consistently recorded as [one of the most expensive states
-to live
+New Jersey is consistently [one of the most expensive states to live
 in](https://worldpopulationreview.com/state-rankings/cost-of-living-index-by-state),
 and not just because of its proximity to New York City, exuberant
 restaurant scene and luxurious beaches. In fact, most of the benefits of
 living in the armpit of America come later in life with social security
-benefits. In all 21 counties of the state, the Social Security
-Administration receives the most federal spending. Why is social
-security such a high priority in New Jersey, and do locals think it's
-worth it?
+benefits.
+
+Social security is less than [7 years away from
+insolvency](https://www.crfb.org/sixfigurelimit). If that occurs, there
+will be a 24% across-the-board benefit cut. In all 21 counties of the
+state, the Social Security Administration receives the most federal
+spending. Because of higher incomes in NJ, residents pay larger total
+amounts of money into social security compared to other Americans. This
+would make potential cuts to benefits all the more stinging. So, why
+does NJ pay larger total amounts of money into social security than
+other Americans, and is it worth it?
+
+### Federal Spending on Social Security Administration By State
+
+This table demonstrates the top 15 states with the most federal spending
+on the Social Security Administration. New Jersey is ranked number 11
+with \$180.06B. While this is significantly less than California's
+\$620.75B, it is pretty high for a small state.
+
+```{r}
+state_spending <- (federal_spending) |> 
+group_by(state_nm) |> 
+  filter(agency=="Social Security Administration") |>
+  summarize(
+    total_spent = sum(spending_total, na.rm = TRUE)) |>
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+print(state_spending, n = 15)
+
+```
 
 ### In one sentence, why tell this story NOW?
 
 This story is relevant because there have been [significant
 changes](https://www.aarp.org/social-security/biggest-2026-changes/) in
 the last year to what social security entails, and people need clarity
-on what this means.
+on what this means, especially if even larger cuts are coming in the
+near future.
 
 ### Who is your target audience?
 
@@ -49,12 +76,11 @@ on what this means.
 
 - An NJ official who is involved and knowledgeable on NJ’s budget and
   federal spending on Social Security Administration
-  - Security Administration Governor Mikie Sherrell, Phone: (609)
-    292-6000
   - Regional Commissioner of Social Security Administration for NJ/NY
     Region Raymond Egan
-  - New Jersey State Treasurer Aaron Binder (Office number:
-    609-292-6748)
+  - Director of Economic Justice and Public Benefits Clinic at Rutgers
+    University Jon Dubin
+    - How will SSI be impacted? Economic justice?
 - A local resident currently receiving and dependent on social security
   benefits
   - Do they purposely live in NJ?
@@ -69,12 +95,30 @@ on what this means.
 Nationally, social security is experiencing drastic changes, and it is
 important to narrow our focus on how these adjustments affect New
 Jersey, along with how the state’s high federal spending on the Social
-Security Association mitigates or worsens these effects. If it is proven
-this priority is worth it, it may inspire other states to follow suit,
-but if it is not, New Jerseyans can advocate for change to adjust
-spending. Additionally, if people are aware of what they are entitled to
-through social security and what they like and dislike about the system,
-they will have the necessary knowledge to vote on it.
+Security Administration mitigates or worsens these effects.
+
+```{r}
+county_spending <- nj_spending |> 
+group_by(cty_name) |> 
+  filter(agency=="Social Security Administration") |>
+  summarize(
+    total_spent = sum(spending_total, na.rm = TRUE)) |>
+   mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
+  arrange(desc(total_spent))
+print(county_spending, n = 21)
+
+```
+
+This is the federal spending on the Social Security Administration in
+the 21 counties of New Jersey in order of most to least populus.
+
+Afer talking to experts and locals, if it is proven that the high cost
+of living for future benefits is worth it, this story may inspire other
+states to follow suit, but if it is not, New Jersey residents can
+advocate for change to adjust costs. Additionally, if people are aware
+of what they are entitled to through social security and what they like
+and dislike about the system, they will have the necessary knowledge to
+vote on it.
 
 ### What are three things that surprised or interested you about this story?
 
@@ -98,6 +142,21 @@ attached](https://www.nj.com/news/2026/04/social-security-benefit-cuts-could-be-
 
   - How does this intersect with NJ’s federal spending?
 
+```{r}
+options(scipen=999)
+ggplot(per_capita,aes(x = cty_name)) + 
+  geom_col(aes(y = total_spent), fill = "red") +
+    geom_col(aes(y = spending_reduce), fill = "blue") +
+  theme(axis.text.x=element_text(angle=90)) +
+  #scale_y_continuous(labels = scales::percent, limits=c(0, 1)) +
+  #geom_text(aes(label = scales::percent(percent)), size = 4) +
+  labs(title = " Reduction in Social Security Spending By County",
+       subtitle = "Potential 24% cut",
+       caption = "If Social Security becomes insolvent, this is the effect on NJ counties",
+       y="$",
+       x="County")
+```
+
 [Social Security’s proposed rule change could cut benefits for nearly
 400K disabled people. Here’s
 why](https://www.nj.com/news/2026/05/social-securitys-proposed-rule-change-could-cut-benefits-for-nearly-400k-disabled-people-heres-why.html)
@@ -120,21 +179,11 @@ you](https://www.nj.com/news/2026/04/social-security-cola-2027-projection-releas
 
   - How do citizens feel about this?
 
-### Photos, video, graphics - How will you make this story visual?
+# Total Spending By County for Social Security Administration
 
-- graphic illustrating what social security benefits includes –
-  basically what are SS benefits
-- comparison of how much federal spending on SSA in NJ vs other states
-
-### Estimated delivery
-
-In order to conduct thorough interviews with several local residents who
-bring different perspectives to the story, interview a knowledgeable
-expert on NJ finances who may be difficult to contact, and compile data
-into pleasing visualizations, I anticipate this assignment to take me
-two to three weeks.
-
-# Total spending by county for Social Security Administration
+This interactive map demonstrates all 21 counties and their per capita
+receipts for Social Security. Cape May County has the most with
+\$35,065.68, while Hudson County has the least with \$12,359.68.
 
 ```{r}
 federal_spending <- read_csv("../data/federal spending by county 2020-2024.csv")
@@ -154,18 +203,6 @@ nj_county_pop <- nj |> select(cty_name, county_pop) |> distinct()
 ```
 
 ```{r}
-county_spending <- nj_spending |> 
-group_by(cty_name) |> 
-  filter(agency=="Social Security Administration") |>
-  summarize(
-    total_spent = sum(spending_total, na.rm = TRUE)) |>
-   mutate(`total_spent_$` = scales::dollar(total_spent / 1e9, suffix = "B", accuracy = 0.01)) |> 
-  arrange(desc(total_spent))
-print(county_spending, n = 21)
-
-```
-
-```{r}
 
 county_sums <- county_spending |>
   inner_join(nj_county_pop)
@@ -174,31 +211,26 @@ per_capita <- county_sums |> mutate(per_capita=total_spent/county_pop)
 
 ```
 
+<iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
 
-
-<iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
-
-
+</iframe>
 
 ```{r}
 per_capita <- per_capita |> 
   mutate(spending_reduce=total_spent-(total_spent * 0.24))
 ```
 
+### Potential Holes
 
-```{r}
-options(scipen=999)
-ggplot(per_capita,aes(x = cty_name)) + 
-  geom_col(aes(y = total_spent), fill = "red") +
-    geom_col(aes(y = spending_reduce), fill = "blue") +
-  theme(axis.text.x=element_text(angle=90)) +
-  #scale_y_continuous(labels = scales::percent, limits=c(0, 1)) +
-  #geom_text(aes(label = scales::percent(percent)), size = 4) +
-  labs(title = "Reduction in Social Security Spending By County",
-       subtitle = "x",
-       caption = "x",
-       y="$",
-       x="County")
-```
+It is important to acknowledge that census data is ever-changing. Data
+is an approximation, and no data-set is completetly fixed. Additionally,
+this spending information is from 2020-2024, meaning the affect of the
+potential cut will change as the spending changes year to year.
 
+### Estimated delivery
 
+In order to conduct thorough interviews with several local residents who
+bring different perspectives to the story, interview a knowledgeable
+expert on NJ finances who may be difficult to contact, and compile data
+into pleasing visualizations, I anticipate this assignment to take me
+two to three weeks.
