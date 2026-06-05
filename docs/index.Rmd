@@ -1,5 +1,5 @@
 ---
-title: "Pitching News Story Template"
+title: "Potential Cut to Social Security Administration Spending"
 author: "Isabelle Farina"
 date: "2026-06-05"
 output: html_document
@@ -24,8 +24,8 @@ New Jersey is consistently [one of the most expensive states to live
 in](https://worldpopulationreview.com/state-rankings/cost-of-living-index-by-state),
 and not just because of its proximity to New York City, delicious
 restaurants and luxurious beaches. In fact, most of the benefits of
-living in the "armpit of America" come later in life with social security
-benefits.
+living in the "armpit of America" come later in life with social
+security benefits.
 
 **According to the** **Congressional Budget Office,** Social Security is
 less than [seven years away from insolvency](#0). If that occurs, there
@@ -37,16 +37,16 @@ more stinging.
 **This story proposal examines what a reduction in Social Security
 spending would look like in each county in New Jersey.**
 
-:::{style="display: flex; align-items: center; justify-content: center; gap: 20px;margin-top: 30px;"}
+::: {style="display: flex; align-items: center; justify-content: center; gap: 20px;margin-top: 30px;"}
 <img src="county_cut.png" style="height:auto;width:auto;"/>
-
 :::
-
 
 ```{=html}
 <script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
 ```
 
+Before diving into NJ, let's analyze the U.S. All 50 states spend at
+least a total of \$10 billion on SSA from 2020-2024.
 
 ### Federal Spending on Social Security Administration By State
 
@@ -89,7 +89,7 @@ means dividing the total amount by the number of individuals in a
 population, allowing for fair comparisons across groups of different
 sizes. New Jersey is actually ranked 33 for SSA spending per capita.
 Nonetheless, New Jersey's large population and high sums spent on SSA
-make this a variable worth analyzing.
+make potential cuts worth analyzing.
 
 <iframe title="Ranking SSA Spending Per Capita Per State" aria-label="Table" id="datawrapper-chart-bUUu4" src="https://datawrapper.dwcdn.net/bUUu4/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
 
@@ -153,8 +153,7 @@ near future.
   - How have their benefits changed recently? Why should states value
     Social Security?
 - A local resident who pays taxes
-  - Are they aware of NJ’s contribution to Social Security? Do they know
-    what benefits they are entitled to?
+  - Do they know what benefits they are entitled to?
 
 ### Potential impact
 
@@ -179,6 +178,16 @@ This is the federal spending on the Social Security Administration in
 the 21 counties of New Jersey in order of most to least populous. Bergen
 County has the most spending with \$18.83 billion and Salem County has
 the least with \$1.64 billion.
+
+# Total Spending By County for Social Security Administration
+
+This interactive map demonstrates all 21 counties and their per capita
+receipts for Social Security. Cape May County has the most with
+\$35,065.68, while Hudson County has the least with \$12,359.68.
+
+<iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+
+</iframe>
 
 ### What are three things that surprised or interested you about this story?
 
@@ -265,12 +274,6 @@ you](https://www.nj.com/news/2026/04/social-security-cola-2027-projection-releas
 
   - How do citizens feel about this?
 
-# Total Spending By County for Social Security Administration
-
-This interactive map demonstrates all 21 counties and their per capita
-receipts for Social Security. Cape May County has the most with
-\$35,065.68, while Hudson County has the least with \$12,359.68.
-
 ```{r}
 federal_spending <- read_csv("../data/federal spending by county 2020-2024.csv")
 ```
@@ -301,10 +304,6 @@ county_sums <- county_spending |>
 per_capita <- county_sums |> mutate(per_capita=total_spent/county_pop)
 
 ```
-
-<iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
-
-</iframe>
 
 ```{=html}
 <script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
