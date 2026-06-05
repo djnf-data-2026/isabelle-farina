@@ -1,7 +1,7 @@
 ---
 title: "Pitching News Story Template"
 author: "Isabelle Farina"
-date: "2026-06-01"
+date: "2026-06-05"
 output: html_document
 editor_options: 
   markdown: 
@@ -10,21 +10,13 @@ execute:
   warning: false
 ---
 
-```{r}
+```{r include=FALSE}
 library(tidyverse)
 ```
 
 Isabelle
 Farina,[isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email},
-6/6/2026
-
-<iframe title="Federal Spending on Social Security Administration in USA per capita" aria-label="Choropleth map" id="datawrapper-chart-bkUG5" src="https://datawrapper.dwcdn.net/bkUG5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
-
-</iframe>
-
-```{=html}
-<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
-```
+6/5/2026
 
 ### What is this story about?
 
@@ -45,6 +37,15 @@ more stinging.
 **This story proposal examines what a reduction in Social Security
 spending would look like in each county in New Jersey.**
 
+<iframe title="Federal Spending on Social Security Administration in USA per capita" aria-label="Choropleth map" id="datawrapper-chart-bkUG5" src="https://datawrapper.dwcdn.net/bkUG5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+
+</iframe>
+
+```{=html}
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+```
+
+
 ### Federal Spending on Social Security Administration By State
 
 ```{r}
@@ -63,6 +64,9 @@ less than California's \$620.75 billion, it is pretty high for a small
 state.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Code" 
+
 state_spending <- federal_spending %>%
 group_by(state_nm) |> 
   filter(agency=="Social Security Administration") |>
