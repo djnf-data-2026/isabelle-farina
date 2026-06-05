@@ -27,25 +27,17 @@ benefits.
 
 [insert images here]
 
-**qualify this -- according to some reports...**Social security is less
-than [seven years away from
+Social security is less than [seven years away from
 insolvency](https://www.crfb.org/sixfigurelimit). If that occurs, there
-**could be a** will be a 24% across-the-board benefit cut **according to
-THE** **Congressional Budget Office** **xxxx**. In all 21 counties of
-the New Jersey, the Social Security Administration **provides** the most
-federal spending. **this assumes everyone in new jersey stayed in place
-during their lifetimes, which is not the case v**~~Because of higher
-incomes in NJ, residents pay larger total amounts of money into social
-security compared to other Americans.~~ This would make potential cuts
-to benefits all the more stinging. ~~So, why does NJ pay larger total
-amounts of money into social security than other Americans, and is it
-worth it?~~
-
-**this story proposal examines what a reduction in social security
-spending would look like in each county in new jersey**
+will be a 24% across-the-board benefit cut. In all 21 counties of the
+New Jersey, the Social Security Administration receives the most federal
+spending. Because of higher incomes in NJ, residents pay larger total
+amounts of money into social security compared to other Americans. This
+would make potential cuts to benefits all the more stinging. So, why
+does NJ pay larger total amounts of money into social security than
+other Americans, and is it worth it?
 
 ### Federal Spending on Social Security Administration By State
-
 ```{r}
 federal_spending <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/federal_spending_by_county_2020%202024%20rob_0416_v2.csv")
 ```
@@ -57,10 +49,8 @@ nj_spending <- federal_spending |>
 
 This table demonstrates the top 15 states with the most federal spending
 on the Social Security Administration. New Jersey is ranked number 11
-with \$180.06 billion **over which years?**. While this is significantly
-less than California's \$620.75 billion, it is pretty high for a small
-state. **describe the per capita spending here and how nj ranks with
-that metric**
+with \$180.06 billion from 2020 to 2024. While this is significantly less than
+California's \$620.75 billion, it is pretty high for a small state.
 
 ```{r}
 state_spending <- federal_spending %>%
@@ -84,12 +74,12 @@ near future.
 
 ### Who is your target audience?
 
-- Folks of benefit-earning age who have been paying social security
+- folks of benefit-earning age who have been paying social security
   taxes in NJ their whole lives and want to ensure they rightfully
   receive their benefits
-- Younger families who want to know if it is worth it in the long run to
+- younger families who want to know if it is worth it in the long run to
   live in a state as expensive as NJ
-- Disabled/financially insecure people who currently benefit from social
+- disabled/financially insecure people who currently benefit from social
   security
 
 ### Three people you can interview for this story
@@ -110,20 +100,17 @@ near future.
 - A local resident who pays taxes
   - Are they aware of NJ’s contribution to social security? do they know
     what benefits they are entitled to?
-- **i disagree with my friend Aidan and i would put the governor on this
-  list. it's a good story and why not shoot for the top**
 
 ### Potential impact
 
-Nationally, Social Security **(capitalize Social Security - it is a
-formal name)** is experiencing drastic changes, and it is important to
-narrow our focus on how these adjustments affect New Jersey, along with
-how the state’s high federal spending on the Social Security
-Administration mitigates or worsens these effects.
+Nationally, social security is experiencing drastic changes, and it is
+important to narrow our focus on how these adjustments affect New
+Jersey, along with how the state’s high federal spending on the Social
+Security Administration mitigates or worsens these effects.
 
 ```{r}
 county_spending <- nj_spending |> 
-group_by(cty_name) |> 
+group_by(cty_name,fyear) |> 
   filter(agency=="Social Security Administration") |>
   summarize(
     total_spent = sum(spending_total, na.rm = TRUE)) |>
@@ -134,19 +121,18 @@ print(county_spending, n = 21)
 ```
 
 This is the federal spending on the Social Security Administration in
-the 21 counties of New Jersey in order of most to least **SPELLING**
-populus. Bergen County has the most spending with \$18.83 billion and
-Salem County has the least with \$1.64 billion.
+the 21 counties of New Jersey in order of most to least populus. Bergen
+County has the most spending with \$18.83 billion and Salem County has
+the least with \$1.64 billion.
 
-**SPELLING** Afer **I DONT UNDERSTAND THIS PARAGRAPH** ~~talking to
-experts and locals, if it is proven that the high cost of living for
-future benefits is worth it, the details of how NJ residents benefit may
-inspire other states to follow suit, but if it is proven that NJ
-residents think they pay too much towards Social Security, they can
-advocate for change to adjust costs.~~ ~~Additionally, if people are
-aware of what they are entitled to through social security and what they
-like and dislike about the system, they will have the necessary
-knowledge to vote on it in the future.~~
+Afer talking to experts and locals, if it is proven that the high cost
+of living for future benefits is worth it, the details of how NJ
+residents benefit may inspire other states to follow suit, but if it is
+proven that NJ residents think they pay too much towards Social
+Security, they can advocate for change to adjust costs. Additionally, if
+people are aware of what they are entitled to through social security
+and what they like and dislike about the system, they will have the
+necessary knowledge to vote on it in the future.
 
 ### What are three things that surprised or interested you about this story?
 
@@ -251,8 +237,8 @@ nj_spending <- federal_spending |>
 #Population
 
 ```{r}
-#DONT NEED THIS LINE - ALREADY IMPORTED IT
-#nj <- read_csv("../data/nj_update.csv")
+
+nj <- read_csv("../data/nj_update.csv")
 nj_county_pop <- nj |> select(cty_name, county_pop) |> distinct()
 ```
 
@@ -273,11 +259,9 @@ per_capita <- county_sums |> mutate(per_capita=total_spent/county_pop)
 <iframe title="Federal Spending on Social Security Administration in NJ per capita" aria-label="Choropleth map" id="datawrapper-chart-PpmLo" src="https://datawrapper.dwcdn.net/PpmLo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
 
 </iframe>
-
 ```{=html}
 <script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
 ```
-
 ```{r}
 per_capita <- per_capita |> 
   mutate(spending_reduce=total_spent-(total_spent * 0.24))
