@@ -14,7 +14,15 @@ library(tidyverse)
 
 Isabelle
 Farina,[isabellefarina546\@gmail.com](mailto:isabellefarina546@gmail.com){.email},
-6/1/2026
+6/6/2026
+
+<iframe title="Federal Spending on Social Security Administration in USA per capita" aria-label="Choropleth map" id="datawrapper-chart-bkUG5" src="https://datawrapper.dwcdn.net/bkUG5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+
+</iframe>
+
+```{=html}
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+```
 
 ### What is this story about?
 
@@ -25,24 +33,15 @@ restaurants and luxurious beaches. In fact, most of the benefits of
 living in the armpit of America come later in life with social security
 benefits.
 
-[insert images here]
+**According to the** **Congressional Budget Office,** Social Security is
+less than [seven years away from insolvency](#0). If that occurs, there
+**could be a** a 24% across-the-board benefit cut. In all 21 counties of
+New Jersey, the Social Security Administration **provides** the most
+federal spending. This would make potential cuts to benefits all the
+more stinging.
 
-**qualify this -- according to some reports...**Social security is less
-than [seven years away from
-insolvency](https://www.crfb.org/sixfigurelimit). If that occurs, there
-**could be a** will be a 24% across-the-board benefit cut **according to
-THE** **Congressional Budget Office** **xxxx**. In all 21 counties of
-the New Jersey, the Social Security Administration **provides** the most
-federal spending. **this assumes everyone in new jersey stayed in place
-during their lifetimes, which is not the case v**~~Because of higher
-incomes in NJ, residents pay larger total amounts of money into social
-security compared to other Americans.~~ This would make potential cuts
-to benefits all the more stinging. ~~So, why does NJ pay larger total
-amounts of money into social security than other Americans, and is it
-worth it?~~
-
-**this story proposal examines what a reduction in social security
-spending would look like in each county in new jersey**
+**This story proposal examines what a reduction in Social Security
+spending would look like in each county in New Jersey.**
 
 ### Federal Spending on Social Security Administration By State
 
@@ -57,10 +56,9 @@ nj_spending <- federal_spending |>
 
 This table demonstrates the top 15 states with the most federal spending
 on the Social Security Administration. New Jersey is ranked number 11
-with \$180.06 billion **over which years?**. While this is significantly
+with \$180.06 billion **from 2020-2024**. While this is significantly
 less than California's \$620.75 billion, it is pretty high for a small
-state. **describe the per capita spending here and how nj ranks with
-that metric**
+state.
 
 ```{r}
 state_spending <- federal_spending %>%
@@ -74,52 +72,84 @@ print(state_spending, n = 15)
 
 ```
 
+However, it is important to analyze spending per capita. Per captia
+means dividing the total amount by the number of individuals in a
+population, allowing for fair comparisons across groups of different
+sizes. New Jersey is actually ranked 33 for SSA spending per capita.
+Nonetheless, New Jersey's large population and high sums spent on SSA
+make this a variable worth analyzing.
+
+<iframe title="Ranking SSA Spending Per Capita Per State" aria-label="Table" id="datawrapper-chart-bUUu4" src="https://datawrapper.dwcdn.net/bUUu4/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+
+</iframe>
+
+```{=html}
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+```
+
+spening per capita
+
+```{r}
+pop <- read_csv("../data/population_inc_2024.csv") %>% 
+  mutate(state1 = str_to_upper(NAME)) %>% 
+  select(state1, estimate)
+
+#add population
+state_spending1 <- state_spending %>% 
+  inner_join(pop, by=c("state_nm" = "state1")) %>% 
+  rename(population = estimate) %>% 
+  mutate(spending_per_capita = (total_spent/population)) %>% 
+  arrange(desc(spending_per_capita)) %>% 
+  mutate(rank = row_number())
+
+write_csv(state_spending1,("state_spending1.csv"))
+
+```
+
 ### In one sentence, why tell this story NOW?
 
 This story is relevant because there have been [significant
 changes](https://www.aarp.org/social-security/biggest-2026-changes/) in
-the last year to what social security entails, and people need clarity
+the last year to what Social Security entails, and people need clarity
 on what this means, especially if even larger cuts are coming in the
 near future.
 
 ### Who is your target audience?
 
-- Folks of benefit-earning age who have been paying social security
+- Folks of benefit-earning age who have been paying Social Security
   taxes in NJ their whole lives and want to ensure they rightfully
   receive their benefits
 - Younger families who want to know if it is worth it in the long run to
   live in a state as expensive as NJ
-- Disabled/financially insecure people who currently benefit from social
-  security
+- Disabled/financially insecure people who currently benefit from Social
+  Security
 
 ### Three people you can interview for this story
 
 - An NJ official who is involved and knowledgeable on NJ’s budget and
   federal spending on Social Security Administration
+  - New Jersey Governor Mikie Sherrill, Phone: (609) 292-6000
   - Regional Commissioner of Social Security Administration for NJ/NY
     Region Raymond Egan
   - Director of Economic Justice and Public Benefits Clinic at Rutgers
     University Jon Dubin
     - How will Supplemental Security Income (SSI) be impacted? Economic
       justice?
-- A local resident currently receiving and dependent on social security
+- A local resident currently receiving and dependent on Social Security
   benefits
   - Do they purposely live in NJ?
   - How have their benefits changed recently? Why should states value
-    social security?
+    Social Security?
 - A local resident who pays taxes
-  - Are they aware of NJ’s contribution to social security? do they know
+  - Are they aware of NJ’s contribution to Social Security? Do they know
     what benefits they are entitled to?
-- **i disagree with my friend Aidan and i would put the governor on this
-  list. it's a good story and why not shoot for the top**
 
 ### Potential impact
 
-Nationally, Social Security **(capitalize Social Security - it is a
-formal name)** is experiencing drastic changes, and it is important to
-narrow our focus on how these adjustments affect New Jersey, along with
-how the state’s high federal spending on the Social Security
-Administration mitigates or worsens these effects.
+Nationally, Social Security is experiencing drastic changes, and it is
+important to narrow our focus on how these adjustments affect New
+Jersey, along with how the state’s high federal spending on the Social
+Security Administration mitigates or worsens these effects.
 
 ```{r}
 county_spending <- nj_spending |> 
@@ -134,28 +164,18 @@ print(county_spending, n = 21)
 ```
 
 This is the federal spending on the Social Security Administration in
-the 21 counties of New Jersey in order of most to least **SPELLING**
-populus. Bergen County has the most spending with \$18.83 billion and
-Salem County has the least with \$1.64 billion.
-
-**SPELLING** Afer **I DONT UNDERSTAND THIS PARAGRAPH** ~~talking to
-experts and locals, if it is proven that the high cost of living for
-future benefits is worth it, the details of how NJ residents benefit may
-inspire other states to follow suit, but if it is proven that NJ
-residents think they pay too much towards Social Security, they can
-advocate for change to adjust costs.~~ ~~Additionally, if people are
-aware of what they are entitled to through social security and what they
-like and dislike about the system, they will have the necessary
-knowledge to vote on it in the future.~~
+the 21 counties of New Jersey in order of most to least populous. Bergen
+County has the most spending with \$18.83 billion and Salem County has
+the least with \$1.64 billion.
 
 ### What are three things that surprised or interested you about this story?
 
-I was not aware of how much social security encompasses. It goes far
+I was not aware of how much Social Security encompasses. It goes far
 beyond old people receiving benefits, and includes things like
 Supplemental Security Income. In New Jersey, Social Security administers
 the State supplement of the Federal SSI benefit with additional
-payments. Additionally, I was not fully aware of how much change social
-security is undergoing recently. I want to be able to connect the trend
+payments. Additionally, I was not fully aware of how much change Social
+Security is undergoing recently. I want to be able to connect the trend
 of every NJ county having SSA as its number one agency for federal
 spending to the national changes.
 
@@ -174,8 +194,8 @@ attached](https://www.nj.com/news/2026/04/social-security-benefit-cuts-could-be-
 
 This graph demonstrates how each county's spending on Social Security
 Administration would be reduced per capita if the 24% cut was put in
-place. The red represents the reduction, while the blue represents what
-would remain.
+place. In the visualization, the red represents the reduction, while the
+blue represents what would remain.
 
 ```{r}
 nj <- read_csv("../data/nj_update.csv")
@@ -202,12 +222,12 @@ ggplot(per_capita,aes(x = cty_name)) +
   geom_col(aes(y = total_spent), fill = "red") +
     geom_col(aes(y = spending_reduce), fill = "blue") +
   theme(axis.text.x=element_text(angle=90)) +
-  #scale_y_continuous(labels = scales::percent, limits=c(0, 1)) +
+ scale_y_continuous(labels = scales::dollar) +
   #geom_text(aes(label = scales::percent(percent)), size = 4) +
   labs(title = " Reduction in Social Security Spending By County",
        subtitle = "Potential 24% cut",
        caption = "If Social Security becomes insolvent, this is the effect on NJ counties",
-       y="$",
+       y="",
        x="County")
 ```
 
@@ -292,7 +312,7 @@ potential cut will change as the spending changes year to year.
 
 ### Impacted Businesses
 
-One company relevant to changes to social security benefits would be the
+One company relevant to changes to Social Security benefits would be the
 medical company Johnson & Johnson, which has a prescription-drug
 benefits program. However, [several cases have been filed in various
 state courts of New
@@ -300,8 +320,8 @@ Jersey](https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/jnj-20
 specifically multi-county litigation in Bergen County. The cases are the
 result of using ELMIRON, a prescription medication for the relief of
 bladder pain. In addition to legal updates, medical companies like
-Johnson & Johnson are important to watch amidst changes to social
-security.
+Johnson & Johnson are important to watch amidst changes to Social
+Security.
 
 ### Estimated delivery
 
