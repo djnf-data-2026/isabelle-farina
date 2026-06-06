@@ -312,33 +312,4 @@ per_capita <- county_sums |> mutate(per_capita=total_spent/county_pop)
 
 ```{r}
 per_capita <- per_capita |> 
-  mutate(spending_reduce=total_spent-(total_spent * 0.24))
-```
-
-### Potential Holes
-
-It is important to acknowledge that census data is ever-changing. Data
-is an approximation, and no data-set is completely fixed. Additionally,
-this spending information is from 2020-2024, meaning the affect of the
-potential cut will change as the spending changes year to year.
-
-### Impacted Businesses
-
-One company relevant to changes to Social Security benefits would be the
-medical company Johnson & Johnson, which has a prescription-drug
-benefits program. However, [several cases have been filed in various
-state courts of New
-Jersey](https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/jnj-20251228.htm),
-specifically multi-county litigation in Bergen County. The cases are the
-result of using ELMIRON, a prescription medication for the relief of
-bladder pain. In addition to legal updates, medical companies like
-Johnson & Johnson are important to watch amidst changes to Social
-Security.
-
-### Estimated delivery
-
-In order to conduct thorough interviews with several local residents who
-bring different perspectives to the story, interview a knowledgeable
-expert on NJ finances who may be difficult to contact and compile data
-into pleasing visualizations, I anticipate this assignment to take me
-two to three weeks.
+  mutate(spending_re
