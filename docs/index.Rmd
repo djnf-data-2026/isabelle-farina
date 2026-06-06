@@ -45,7 +45,7 @@ spending would look like in each county in New Jersey.**
 <script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
 ```
 
-Before diving into NJ, let's analyze the U.S. All 50 states spend at
+Before diving into NJ, let's analyze the U.S. All 50 states have spent at
 least a total of \$10 billion on SSA from 2020-2024.
 
 ### Federal Spending on Social Security Administration By State
@@ -79,11 +79,6 @@ group_by(state_nm) |>
 print(state_spending, n = 15)
 
 ```
-
-<iframe title="Federal Spending on Social Security Administration in USA per capita" aria-label="Choropleth map" id="datawrapper-chart-bkUG5" src="https://datawrapper.dwcdn.net/bkUG5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
-
-</iframe>
-
 However, it is important to analyze spending per capita. Per captia
 means dividing the total amount by the number of individuals in a
 population, allowing for fair comparisons across groups of different
@@ -94,6 +89,12 @@ make potential cuts worth analyzing.
 <iframe title="Ranking SSA Spending Per Capita Per State" aria-label="Table" id="datawrapper-chart-bUUu4" src="https://datawrapper.dwcdn.net/bUUu4/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
 
 </iframe>
+
+<iframe title="Federal Spending on Social Security Administration in USA per capita" aria-label="Choropleth map" id="datawrapper-chart-bkUG5" src="https://datawrapper.dwcdn.net/bkUG5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+
+</iframe>
+
+
 
 ```{=html}
 <script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
